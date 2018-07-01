@@ -118,3 +118,12 @@ cordova requirements
 
 # test compile everything
 cordova compile
+
+# success message
+set +o xtrace # disable command printing
+echo
+echo "Project $projectName created successfully"
+echo "Your project location is $projectDir"
+echo "Run local development with 'yarn start'"
+echo "Build iOS with 'yarn run ios'"
+echo "Build Android with 'yarn run android'"
