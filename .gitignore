@@ -1,2 +1,3 @@
 node_modules/
-ivobos-testproj/
+testproj/
+.quickstarts.settings.json

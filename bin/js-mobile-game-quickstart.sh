@@ -5,62 +5,141 @@ set -o pipefail # exit on command fail in a pipeline
 set -u # warn about unused variables
 set -E # make sure traps work with set -e
 
+# test prerequisite commands are present
+command -v cordova >/dev/null 2>&1 || { echo >&2 "cordova is required but not installed. Aborting."; exit 1; }
+command -v xmlstarlet >/dev/null 2>&1 || { echo >&2 "xmlstarlet is required but not installed. Aborting."; exit 1; }
+command -v cordova-icon >/dev/null 2>&1 || { echo >&2 "cordova-icon is required but not installed. Aborting."; exit 1; }
+command -v yarn >/dev/null 2>&1 || { echo >&2 "yarn is required but not installed. Aborting."; exit 1; }
+
 # various paths
 scriptPath="`dirname \"$0\"`"
 scriptPath="`( cd \"$scriptPath\" && pwd )`"
 resourcesPath="$scriptPath/../js-mobile-game-quickstart-resources"
+settingsFile="$scriptPath/../.quickstarts.settings.json"
 
-# test prerequisite commands are present
-set -o xtrace # enable command printing
-which cordova
-which xmlstarlet
-which cordova-icon
-which yarn
+# load user settings
+if [[ ! -e $settingsFile ]]; then
+    echo "{}" > $settingsFile
+fi
+authorName=`jq -r ".author.name" $settingsFile`
+if [[ $authorName = "null" ]]; then 
+    authorName="" 
+fi
+authorEmail=`jq -r ".author.email" $settingsFile`
+if [[ $authorEmail = "null" ]]; then 
+    authorEmail="" 
+fi
+authorWebsite=`jq -r ".author.website" $settingsFile`
+if [[ $authorWebsite = "null" ]]; then 
+    authorWebsite="" 
+fi
+authorPackage=`jq -r ".author.package" $settingsFile`
+if [[ $authorPackage = "null" ]]; then 
+    authorPackage="" 
+fi
 
 # parse options
 OPTIND=1
 projectName=""
+appTitle=""
 yesAll=0
-while getopts "h?yp:" opt; do
+while getopts "h?yp:t:" opt; do
     case "$opt" in
     h|\?)
-        echo "Usage: $0 [-h] [-?] [-y] [-p projectName]"
+        echo "Usage: $0 [-h] [-?] [-y] [-p projectName] [-t appTitle]"
         exit 0
         ;;
     y)  yesAll=1
         ;;
     p)  projectName=$OPTARG
         ;;
+    t)  appTitle=$OPTARG
+        ;;
     esac
 done
 
 
-# collect input configuration
-set +o xtrace # disable command printing
-if [[ -z $projectName ]]
-then
-    echo -n "Enter project name: "
-    read userInput
-    if [[ -n "$userInput" ]]
-    then
-        projectName=$userInput
-    else
+# input project name if missing
+if [[ -z $projectName ]]; then
+    echo -n "Enter project name (eg. space-travel-mobile): "
+    read projectName
+    if [[ -z "$projectName" ]]; then
         echo "Project name must be a non empty string"
         exit 1    
     fi
 fi
 
+# input app title if missing
+if [[ -z $appTitle ]]; then
+    echo -n "Enter application title (eg. Space Travel): "
+    read appTitle
+    if [[ -z "$appTitle" ]]; then
+        echo "Application title be a non empty string"
+        exit 1    
+    fi
+fi
+
+# collect author name if necessary
+if [[ -z $authorName ]]; then
+    echo -n "Enter your full name: "
+    read authorName
+    if [[ -z $authorName ]]; then
+        echo "Name must not be empty"
+        exit 1
+    else
+        jq ".author.name = \"$authorName\"" $settingsFile > $settingsFile.new
+        mv $settingsFile.new $settingsFile
+    fi
+fi
+
+# collect author email if necessary
+if [[ -z $authorEmail ]]; then
+    echo -n "Enter your email: "
+    read authorEmail
+    if [[ -z $authorEmail ]]; then
+        echo "Email must not be empty"
+        exit 1
+    else
+        jq ".author.email = \"$authorEmail\"" $settingsFile > $settingsFile.new
+        mv $settingsFile.new $settingsFile
+    fi
+fi
+
+# collect author website if necessary
+if [[ -z $authorWebsite ]]; then
+    echo -n "Enter your website (must not be empty): "
+    read authorWebsite
+    if [[ -z $authorWebsite ]]; then
+        echo "Name must not be empty"
+        exit 1
+    else
+        jq ".author.website = \"$authorWebsite\"" $settingsFile > $settingsFile.new
+        mv $settingsFile.new $settingsFile
+    fi
+fi
+
+# collect author package if necessary
+if [[ -z $authorPackage ]]; then
+    echo -n "Enter your package (eg: com.spacegamez) (must not be empty): "
+    read authorPackage
+    if [[ -z $authorPackage ]]; then
+        echo "Package must not be empty"
+        exit 1
+    else
+        jq ".author.package = \"$authorPackage\"" $settingsFile > $settingsFile.new
+        mv $settingsFile.new $settingsFile
+    fi
+fi
+
 # generate and default configuration properties 
 projectNameLowercase=`echo $projectName | tr '[:upper:]' '[:lower:]'`
-projectDir="$PWD/ivobos-$projectNameLowercase"
-projectId=net.aptive.$projectNameLowercase
-projectDescription="$projectName description"
-appTitle=$projectName
-authorName="Ivo Bosticky"
-authorEmail="ivobos@gmail.com"
-authorWebsite="http://aptive.net"
+projectNameSafeId=`echo $projectNameLowercase | tr -cd '[:alnum:]'`
+projectDir="$PWD/$projectNameLowercase"
+projectId="$authorPackage.$projectNameSafeId"
+projectDescription="$appTitle description"
 
 # print out configuration and confirm 
+echo
 echo "Ready to create project $projectName"
 echo "Path:         $projectDir"
 echo "Package id:   $projectId"
@@ -73,7 +152,6 @@ if [[ $yesAll -eq 0 ]]
 then
     echo "Do you wish to continue? [Y/n]"
     read -rsn1 answer
-    echo $answer
     if [[ $answer != "y" && $answer != "Y" && $answer != "" ]]
     then
         echo "aborted"
@@ -83,7 +161,7 @@ fi
 
 # now create project
 set -o xtrace # print commands executed
-cordova create $projectDir $projectId $appTitle
+cordova create $projectDir $projectId $projectName
 cd $projectDir
 # rm -rf $projectDir/www
 
@@ -119,8 +197,9 @@ cordova requirements
 # test compile everything
 cordova compile
 
-# success message
 set +o xtrace # disable command printing
+
+# success message
 echo
 echo "Project $projectName created successfully"
 echo "Your project location is $projectDir"

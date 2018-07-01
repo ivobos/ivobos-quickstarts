@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "watch 'yarn run test' js-mobile-game-quickstart-resources bin",
-    "test": "rm -rf ivobos-testproj && ./bin/js-mobile-game-quickstart.sh -y -p testproj"
+    "test": "rm -rf testproj && ./bin/js-mobile-game-quickstart.sh -y -p testproj -t TestProj"
   },
   "repository": "https://github.com/ivobos/ivobos-quickstarts.git",
   "author": "ivobos@gmail.com",

@@ -27,16 +27,8 @@ Run the quickstart
 ```
 Answer some questions
 ```
-Enter project name: testproj
-Ready to create project testproj
-Path:         /Users/ibosticky/src/ivobos-quickstarts/ivobos-testproj
-Package id:   net.aptive.testproj
-Description:  testproj description
-App title:    testproj
-Author:       Ivo Bosticky
-Author email: ivobos@gmail.com
-Auther site:  http://aptive.net
-Do you wish to continue? [Y/n]
+Enter project name (eg. space-travel-mobile): tetris-mobile
+Enter application title (eg. Space Travel): Tetris
 ```
 Your custom project will be created
 ```
