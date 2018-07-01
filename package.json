@@ -1,0 +1,17 @@
+{
+  "name": "ivobos-quickstarts",
+  "version": "0.0.1",
+  "description": "Quickstart scripts that create an application template",
+  "main": "index.js",
+  "scripts": {
+    "start": "watch 'yarn run test' js-mobile-game-quickstart-resources bin",
+    "test": "rm -rf ivobos-testproj && ./bin/js-mobile-game-quickstart.sh -y -p testproj"
+  },
+  "repository": "https://github.com/ivobos/ivobos-quickstarts.git",
+  "author": "ivobos@gmail.com",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "watch": "^1.0.2"
+  }
+}
