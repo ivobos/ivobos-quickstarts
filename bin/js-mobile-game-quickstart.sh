@@ -161,15 +161,20 @@ fi
 
 # now create project
 set -o xtrace # print commands executed
-cordova create $projectDir $projectId $projectName
+cordova create $projectDir $projectId "$appTitle"
 cd $projectDir
-# rm -rf $projectDir/www
+rm -rf $projectDir/www
+mkdir $projectDir/www
 
 # update config.xml
 xmlstarlet ed -L -N x="http://www.w3.org/ns/widgets" -u "/x:widget/x:description" -v "$projectDescription" config.xml
 xmlstarlet ed -L -N x="http://www.w3.org/ns/widgets" -u "/x:widget/x:author/@email" -v "$authorEmail" config.xml
 xmlstarlet ed -L -N x="http://www.w3.org/ns/widgets" -u "/x:widget/x:author/@href" -v "$authorWebsite" config.xml
 xmlstarlet ed -L -N x="http://www.w3.org/ns/widgets" -u "/x:widget/x:author" -v "$authorName" config.xml
+
+# merge $resourcesPath/package.json to package.json
+jq -s '.[0] * .[1]' package.json $resourcesPath/package.json > package.json.new
+mv package.json.new package.json
 
 # update package.json
 jq ".description = \"$projectDescription\"" package.json > package.json.new
@@ -183,19 +188,29 @@ cordova platform add android
 cordova platform add ios
 
 # copy resources
-cp -R "$resourcesPath/" $projectDir
+cp -R "$resourcesPath/src" $projectDir
+cp "$resourcesPath/.gitignore" $projectDir
+cp "$resourcesPath/icon.png" $projectDir
+cp "$resourcesPath/icon.sketch" $projectDir
+cp "$resourcesPath/webpack.config.js" $projectDir
+
+# update webpack.config.js
+# sed "s/appTitle/$appTitle/g" webpack.config.js > webpack.config.js.new
+# mv webpack.config.js.new webpack.config.js
 
 # appllication icon
 cordova-icon
 
 # add packages
-yarn add webpack webpack-cli --dev
+yarn add webpack webpack-cli webpack-dev-server html-webpack-plugin clean-webpack-plugin --dev
+
+# yarn start
 
 # check build environment pre-requisites
-cordova requirements
+# cordova requirements
 
 # test compile everything
-cordova compile
+# cordova compile
 
 set +o xtrace # disable command printing
 
