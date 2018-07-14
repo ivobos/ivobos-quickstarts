@@ -14,7 +14,8 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: package_json.displayName,
       template: 'src/index.html',
-      filename: 'index.html'
+      filename: 'index.html',
+      favicon: './icon.png'
     })
   ],
   output: {
