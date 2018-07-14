@@ -1,6 +1,9 @@
 {
     "private": true,
     "scripts": {
+        "version": "yarn run version:config",
+        "version:config": "replace 'version=\"\\d+\\.\\d+\\.\\d+\"' \"version=\\\"$npm_package_version\\\"\" ./config.xml && git add config.xml && git commit -m 'update config.xml'",
+        "release": "grep version package.json | head -1 && yarn version && git push && git push --tags",
         "build": "webpack",
         "start": "webpack-dev-server --open"
     }    
