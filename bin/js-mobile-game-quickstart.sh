@@ -177,20 +177,6 @@ bitbucketRepo="$projectNameLowercase"
 bitbucketRepoUrl="https://$bitbucketUsername@bitbucket.org/$bitbucketUsername/$bitbucketRepo.git"
 
 
-# curl -X POST -is -u "$bitbucketUsername:$bitbucketAppPassword" \
-#   -H 'Content-Type: application/json' \
-#  https://api.bitbucket.org/2.0/repositories/$bitbucketUsername/$bitbucketRepo/pipelines/ \
-#   -d '
-#   {
-#     "target": {
-#       "ref_type": "branch", 
-#       "type": "pipeline_ref_target", 
-#       "ref_name": "master"
-#     }
-#   }'
-
-# exit 0
-
 # print out configuration and confirm 
 echo
 echo "Ready to create project $projectName"
@@ -273,6 +259,8 @@ cp "$resourcesPath/icon.sketch" $projectDir
 cp "$resourcesPath/webpack.config.js" $projectDir
 cp "$resourcesPath/README.md" $projectDir
 cp "$resourcesPath/bitbucket-pipelines.yml" $projectDir
+cp "$resourcesPath/play-store-listing-high-res-icon.ong" $projectDir
+cp "$resourcesPath/play-store-feature-graphic.ong" $projectDir
 
 # update README.md
 sed "s/appTitle/$appTitle/g" README.md > README.md.new
