@@ -18,6 +18,8 @@ Other tools that you will need on your system include
 - jq
 - cordova-icon
 - cordova-splash
+- bitbucket (install with `pip install bitbucket-cli`)
+- git
 
 ## Usage
 

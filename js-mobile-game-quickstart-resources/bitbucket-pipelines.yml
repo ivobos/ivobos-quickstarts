@@ -1,0 +1,14 @@
+image: ivobos/js-mobile-game-quickstart-ci-image:0.0.1
+
+pipelines:
+  tags:
+    v*:
+      - step:
+          caches:
+            - node
+          script:
+            - yarn install
+            - yarn android
+
+options:
+  docker: true
