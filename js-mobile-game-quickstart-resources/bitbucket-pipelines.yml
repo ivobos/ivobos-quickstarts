@@ -1,4 +1,4 @@
-image: ivobos/js-mobile-game-quickstart-ci-image:0.0.2
+image: ivobos/js-mobile-game-quickstart-ci-image:0.0.3
 
 pipelines:
   tags:
@@ -8,6 +8,7 @@ pipelines:
             - node
           script:
             - npm install
+            - npm run prepare
             - npm run android
 
 options:

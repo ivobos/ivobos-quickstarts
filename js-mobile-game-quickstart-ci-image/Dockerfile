@@ -1,4 +1,4 @@
-FROM beevelop/cordova:v7.0.1
+FROM beevelop/cordova:v8.0.0
 
 RUN apt-get -qq update && \
     apt-get -qq install -y git && \
