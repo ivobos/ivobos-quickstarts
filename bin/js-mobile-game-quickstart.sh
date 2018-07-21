@@ -47,6 +47,10 @@ bitbucketAppPassword=`jq -r ".bitbucket.password" $settingsFile`
 if [[ $bitbucketAppPassword = "null" ]]; then 
     bitbucketAppPassword="" 
 fi
+googlePlayApiJsonFile=`jq -r ".google.playApiJsonFile" $settingsFile`
+if [[ $googlePlayApiJsonFile = "null" ]]; then 
+    googlePlayApiJsonFile="" 
+fi
 
 # parse options
 OPTIND=1
@@ -168,6 +172,23 @@ if [[ -z $bitbucketAppPassword ]]; then
     fi
 fi
 
+# collect google play api json file if necessary
+if [[ -z $googlePlayApiJsonFile ]]; then
+    echo -n "Enter google play api json absolute filepath: "
+    read googlePlayApiJsonFile
+    if [[ -z $googlePlayApiJsonFile ]]; then
+        echo "google play api json file must not be empty"
+        exit 1
+    elif [[ ! -f $googlePlayApiJsonFile ]]; then
+        echo "google play api json file not found"
+        exit 1
+    else
+        jq ".google.playApiJsonFile = \"$googlePlayApiJsonFile\"" $settingsFile > $settingsFile.new
+        mv $settingsFile.new $settingsFile
+    fi
+fi
+
+
 # generate and default configuration properties 
 projectNameLowercase=`echo $projectName | tr '[:upper:]' '[:lower:]'`
 projectNameSafeId=`echo $projectNameLowercase | tr -cd '[:alnum:]'`
@@ -254,6 +275,9 @@ cordova platform add android
 keytool -genkey -v -keystore android.keystore -keyalg RSA -keysize 2048 -validity 10000 -storepass "$projectName"123456 -keypass "$projectName"123456  -dname "cn=$authorName, ou=Unknown, o=Unknown, c=US"
 sed "s/\$projectName/$projectName/g" package.json > package.json.new
 mv package.json.new package.json
+
+# google play
+cp $googlePlayApiJsonFile google-play-api.json
 
 # ios
 cordova platform add ios

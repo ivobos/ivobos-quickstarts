@@ -6,10 +6,10 @@
         "release": "grep version package.json | head -1 && npm version && git push && git push --tags",
         "build": "webpack",
         "start": "webpack-dev-server --open",
-        "prepare": "mkdir -p www && cordova --no-insight --no-update-notifier prepare",
+        "prepare": "mkdir -p www && echo y | /opt/android/tools/bin/sdkmanager --update && cordova --no-insight --no-update-notifier prepare",
         "android": "npm run android:build && npm run android:upload",
         "android:build": "NODE_ENV=production webpack && cordova build android --release -- --keystore=android.keystore --storePassword=$projectName123456 --alias=mykey --password=$projectName123456 --keystoreType=jks",
-        "android:upload": "playup --auth google-play-api.json ./android-release.apk",
+        "android:upload": "playup --auth google-play-api.json ./platforms/android/app/build/outputs/apk/release/app-release.apk",
         "android:device": "NODE_ENV=production webpack && cordova build android && cordova run android"
     }    
 }
