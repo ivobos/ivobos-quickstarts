@@ -11,6 +11,7 @@ command -v xmlstarlet >/dev/null 2>&1 || { echo >&2 "xmlstarlet is required but 
 command -v cordova-icon >/dev/null 2>&1 || { echo >&2 "cordova-icon is required but not installed. Aborting."; exit 1; }
 command -v yarn >/dev/null 2>&1 || { echo >&2 "yarn is required but not installed. Aborting."; exit 1; }
 command -v bitbucket >/dev/null 2>&1 || { echo >&2 "bitbucket is required but not installed. Aborting."; exit 1; }
+command -v keytool >/dev/null 2>&1 || { echo >&2 "keytool is required but not installed. Aborting."; exit 1; }
 
 # various paths
 scriptPath="`dirname \"$0\"`"
@@ -248,7 +249,13 @@ mv package.json.new package.json
 jq "del(.main)" package.json > package.json.new
 mv package.json.new package.json
 
+# android
 cordova platform add android
+keytool -genkey -v -keystore android.keystore -keyalg RSA -keysize 2048 -validity 10000 -storepass "$projectName"123456 -keypass "$projectName"123456  -dname "cn=$authorName, ou=Unknown, o=Unknown, c=US"
+sed "s/\$projectName/$projectName/g" package.json > package.json.new
+mv package.json.new package.json
+
+# ios
 cordova platform add ios
 
 # copy resources
@@ -259,8 +266,8 @@ cp "$resourcesPath/icon.sketch" $projectDir
 cp "$resourcesPath/webpack.config.js" $projectDir
 cp "$resourcesPath/README.md" $projectDir
 cp "$resourcesPath/bitbucket-pipelines.yml" $projectDir
-cp "$resourcesPath/play-store-listing-high-res-icon.ong" $projectDir
-cp "$resourcesPath/play-store-feature-graphic.ong" $projectDir
+cp "$resourcesPath/play-store-listing-high-res-icon.png" $projectDir
+cp "$resourcesPath/play-store-feature-graphic.png" $projectDir
 
 # update README.md
 sed "s/appTitle/$appTitle/g" README.md > README.md.new
@@ -270,7 +277,7 @@ mv README.md.new README.md
 cordova-icon
 
 # add packages
-yarn add webpack webpack-cli webpack-dev-server html-webpack-plugin clean-webpack-plugin replace --dev
+yarn add webpack webpack-cli webpack-dev-server html-webpack-plugin clean-webpack-plugin replace playup --dev
 
 # create bitbucket repository
 bitbucket create --private --protocol ssh --scm git --username $bitbucketUsername --password $bitbucketAppPassword $bitbucketRepo
