@@ -1,4 +1,4 @@
-image: ivobos/js-mobile-game-quickstart-ci-image:0.0.1
+image: ivobos/js-mobile-game-quickstart-ci-image:0.0.2
 
 pipelines:
   tags:
@@ -7,8 +7,8 @@ pipelines:
           caches:
             - node
           script:
-            - yarn install
-            - yarn android
+            - npm install
+            - npm run android
 
 options:
   docker: true

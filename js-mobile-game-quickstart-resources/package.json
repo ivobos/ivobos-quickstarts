@@ -1,12 +1,13 @@
 {
     "private": true,
     "scripts": {
-        "version": "yarn run version:config",
+        "version": "npm run version:config",
         "version:config": "replace 'version=\"\\d+\\.\\d+\\.\\d+\"' \"version=\\\"$npm_package_version\\\"\" ./config.xml && git add config.xml && git commit -m 'update config.xml'",
-        "release": "grep version package.json | head -1 && yarn version && git push && git push --tags",
+        "release": "grep version package.json | head -1 && npm version && git push && git push --tags",
         "build": "webpack",
         "start": "webpack-dev-server --open",
-        "android": "yarn run android:build && yarn run android:upload",
+        "prepare": "mkdir -p www && cordova prepare",
+        "android": "npm run android:build && npm run android:upload",
         "android:build": "NODE_ENV=production webpack && cordova build android --release -- --keystore=android.keystore --storePassword=$projectName123456 --alias=mykey --password=$projectName123456 --keystoreType=jks",
         "android:upload": "playup --auth google-play-api.json ./android-release.apk",
         "android:device": "NODE_ENV=production webpack && cordova build android && cordova run android"

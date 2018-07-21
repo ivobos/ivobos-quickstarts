@@ -12,7 +12,7 @@ Clone the ivobos-quickstarts repository with
 git clone https://github.com/ivobos/ivobos-quickstarts.git
 ```
 Other tools that you will need on your system include
-- yarn 
+- npm 
 - cordova
 - xmlstarlet
 - jq
@@ -37,15 +37,15 @@ Your custom project will be created
 ...
 Project testproj created successfully
 Your project location is /Users/ibosticky/src/ivobos-quickstarts/ivobos-testproj
-Run local development with 'yarn start'
-Build iOS with 'yarn run ios'
-Build Android with 'yarn run android'
+Run local development with 'npm start'
+Build iOS with 'npm run ios'
+Build Android with 'npm run android'
 ```
 
 ## Contributing
 To contribute you can use a local dev loop by running
 ```
-yarn start
+npm start
 ```
 This will run the quickstart for a project called 'ivobos-testproj'. After the build is
 complete any file changes will trigger a re-run.

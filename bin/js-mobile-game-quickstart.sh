@@ -9,7 +9,7 @@ set -E # make sure traps work with set -e
 command -v cordova >/dev/null 2>&1 || { echo >&2 "cordova is required but not installed. Aborting."; exit 1; }
 command -v xmlstarlet >/dev/null 2>&1 || { echo >&2 "xmlstarlet is required but not installed. Aborting."; exit 1; }
 command -v cordova-icon >/dev/null 2>&1 || { echo >&2 "cordova-icon is required but not installed. Aborting."; exit 1; }
-command -v yarn >/dev/null 2>&1 || { echo >&2 "yarn is required but not installed. Aborting."; exit 1; }
+command -v npm >/dev/null 2>&1 || { echo >&2 "npm is required but not installed. Aborting."; exit 1; }
 command -v bitbucket >/dev/null 2>&1 || { echo >&2 "bitbucket is required but not installed. Aborting."; exit 1; }
 command -v keytool >/dev/null 2>&1 || { echo >&2 "keytool is required but not installed. Aborting."; exit 1; }
 
@@ -277,7 +277,13 @@ mv README.md.new README.md
 cordova-icon
 
 # add packages
-yarn add webpack webpack-cli webpack-dev-server html-webpack-plugin clean-webpack-plugin replace playup --dev
+npm install webpack --save-dev
+npm install webpack-cli --save-dev
+npm install webpack-dev-server --save-dev
+npm install html-webpack-plugin --save-dev
+npm install clean-webpack-plugin --save-dev
+npm install replace --save-dev
+npm install playup --save-dev
 
 # create bitbucket repository
 bitbucket create --private --protocol ssh --scm git --username $bitbucketUsername --password $bitbucketAppPassword $bitbucketRepo
@@ -298,7 +304,7 @@ https://api.bitbucket.org/2.0/repositories/$bitbucketUsername/$bitbucketRepo/pip
 git tag -a v0.0.1 -m "v0.0.1"
 git push --tags
 
-# yarn start
+# npm start
 
 # check build environment pre-requisites
 # cordova requirements
@@ -313,6 +319,6 @@ echo
 echo "Project $projectName created successfully"
 echo "Your repo is $bitbucketRepoUrl"
 echo "Your project location is $projectDir"
-echo "Run local development with 'yarn start'"
-echo "Build iOS with 'yarn run ios'"
-echo "Build Android with 'yarn run android'"
+echo "Run local development with 'npm start'"
+echo "Build iOS with 'npm run ios'"
+echo "Build Android with 'npm run android'"

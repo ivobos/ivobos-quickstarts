@@ -1,12 +1,12 @@
 {
   "name": "ivobos-quickstarts",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Quickstart scripts that create an application template",
   "main": "index.js",
   "scripts": {
-    "start": "watch 'yarn run test' js-mobile-game-quickstart-resources bin",
+    "start": "watch 'npm run test' js-mobile-game-quickstart-resources bin",
     "test": "rm -rf testproj && ./bin/js-mobile-game-quickstart.sh -y -p testproj -t \"Test Project\"",
-    "ci-image": "yarn run ci-image:build && yarn run ci-image:push",
+    "ci-image": "npm run ci-image:build && npm run ci-image:push",
     "ci-image:build": "docker build js-mobile-game-quickstart-ci-image -t ivobos/js-mobile-game-quickstart-ci-image:$npm_package_version",
     "ci-image:push": "docker push ivobos/js-mobile-game-quickstart-ci-image:$npm_package_version",
     "ci-image:test": "docker run -it --volume=`pwd`:/testproj --workdir=\"/testproj\" --memory=4g --memory-swap=4g --entrypoint=/bin/bash ivobos/js-mobile-game-quickstart-ci-image:$npm_package_version"
