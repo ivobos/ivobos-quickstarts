@@ -292,6 +292,8 @@ cp "$resourcesPath/README.md" $projectDir
 cp "$resourcesPath/bitbucket-pipelines.yml" $projectDir
 cp "$resourcesPath/play-store-listing-high-res-icon.png" $projectDir
 cp "$resourcesPath/play-store-feature-graphic.png" $projectDir
+cp "$resourcesPath/play-store-phone-screenshot1.png" $projectDir
+cp "$resourcesPath/play-store-phone-screenshot2.png" $projectDir
 
 # update README.md
 sed "s/appTitle/$appTitle/g" README.md > README.md.new
