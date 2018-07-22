@@ -1,6 +1,6 @@
 {
   "name": "ivobos-quickstarts",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Quickstart scripts that create an application template",
   "main": "index.js",
   "scripts": {
