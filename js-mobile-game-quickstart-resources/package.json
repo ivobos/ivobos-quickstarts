@@ -1,9 +1,8 @@
 {
     "private": true,
     "scripts": {
-        "version": "npm run version:config",
-        "version:config": "replace 'version=\"\\d+\\.\\d+\\.\\d+\"' \"version=\\\"$npm_package_version\\\"\" ./config.xml && git add config.xml && git commit -m 'update config.xml'",
-        "release": "grep version package.json | head -1 && npm version && git push && git push --tags",
+        "version": "replace 'version=\"\\d+\\.\\d+\\.\\d+\"' \"version=\\\"$npm_package_version\\\"\" ./config.xml && git add config.xml",
+        "postversion": "git push --tags",
         "build": "webpack",
         "start": "webpack-dev-server --open",
         "cordova:prepare": "mkdir -p www && cordova --no-insight --no-update-notifier prepare",

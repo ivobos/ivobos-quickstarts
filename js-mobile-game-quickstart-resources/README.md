@@ -16,10 +16,20 @@ npm start
 ```
 Open browser location [http://localhost:8080/](http://localhost:8080/)
 
-# Release
+# Release a version
 ```bash
-npm run release
+npm version patch
 ```
-This will prompt for new version number, update versions in various files, create a 
-version tag and push this to git. 
+This will bump patch version in package.json, update config.xml accordingly, create a tag and push to git. In bitbucket the new tag will trigger a build.
+
+To release a minor version use
+```bash
+npm version minor
+```
+and for major version use
+```
+npm version major
+```
+
+
 
