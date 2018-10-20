@@ -4,6 +4,7 @@
         "version": "replace 'version=\"\\d+\\.\\d+\\.\\d+\"' \"version=\\\"$npm_package_version\\\"\" ./config.xml && git add config.xml",
         "postversion": "git push --tags",
         "build": "webpack",
+        "buildt": "tsc --traceResolution",
         "start": "webpack-dev-server --open",
         "cordova:prepare": "mkdir -p www && cordova --no-insight --no-update-notifier prepare",
         "android": "npm run android:build && npm run android:upload",

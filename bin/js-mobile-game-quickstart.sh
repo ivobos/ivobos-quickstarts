@@ -285,6 +285,7 @@ cordova platform add ios
 # copy resources
 cp -R "$resourcesPath/src" $projectDir
 cp "$resourcesPath/.gitignore" $projectDir
+cp "$resourcesPath/tsconfig.json" $projectDir
 cp "$resourcesPath/icon.png" $projectDir
 cp "$resourcesPath/icon.sketch" $projectDir
 cp "$resourcesPath/webpack.config.js" $projectDir
@@ -310,6 +311,10 @@ npm install html-webpack-plugin --save-dev
 npm install clean-webpack-plugin --save-dev
 npm install replace --save-dev
 npm install playup --save-dev
+npm install typescript --save-dev
+npm install ts-loader --save-dev 
+npm install source-map-loader --save-dev
+npm install @ivobos/entropy-engine --save-dev
 
 # create bitbucket repository
 bitbucket create --private --protocol ssh --scm git --username $bitbucketUsername --password $bitbucketAppPassword $bitbucketRepo

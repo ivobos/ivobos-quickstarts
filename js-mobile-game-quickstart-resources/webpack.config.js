@@ -4,8 +4,28 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const package_json = require('./package.json');
 
 module.exports = {
-  entry: './src/index.js',
-  devtool: 'inline-source-map',
+  entry: './src/index.ts',
+  output: {
+    filename: 'main_bundle.js',
+    path: path.resolve(__dirname, 'www')
+  },
+  devtool: 'source-map',
+  resolve: {
+    extensions: [".ts", ".tsx", ".js"]
+  },
+  module: {
+    rules: [
+      {
+          test: /\.js$/,
+          use: ["source-map-loader"],
+          enforce: "pre"
+      },
+      {
+          test: /\.ts$/,
+          use: ["ts-loader"]
+      }
+    ]
+  },
   devServer: {
     contentBase: './www'
   },
@@ -17,9 +37,5 @@ module.exports = {
       filename: 'index.html',
       favicon: './icon.png'
     })
-  ],
-  output: {
-    filename: 'main_bundle.js',
-    path: path.resolve(__dirname, 'www')
-  }
+  ]
 };

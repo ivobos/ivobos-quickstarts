@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+      "strictNullChecks": true,
+      "noImplicitAny": true,
+      "outDir": "./www/",
+      "sourceMap": true,
+      "module": "commonjs",
+      "target": "es2015"
+    },
+    "filesGlob": [
+      "./src/*.ts"
+    ]
+}
