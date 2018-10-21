@@ -350,6 +350,7 @@ echo
 echo "Project $projectName created successfully"
 echo "Your repo is $bitbucketRepoUrl"
 echo "Your project location is $projectDir"
+echo "Install npm dependencies with 'npm install'"
 echo "Run local development with 'npm start'"
 echo "Build iOS with 'npm run ios'"
 echo "Build Android with 'npm run android'"

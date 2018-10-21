@@ -13,10 +13,10 @@ git clone https://github.com/ivobos/ivobos-quickstarts.git
 ```
 Other tools that you will need on your system include
 - npm 
-- cordova
+- cordova (npm install -g cordova)
 - xmlstarlet
 - jq
-- cordova-icon
+- cordova-icon (npm install -g cordova-icon)
 - cordova-splash
 - bitbucket (install with `pip install bitbucket-cli`)
 - git

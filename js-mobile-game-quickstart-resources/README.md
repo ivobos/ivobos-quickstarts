@@ -16,6 +16,16 @@ npm start
 ```
 Open browser location [http://localhost:8080/](http://localhost:8080/)
 
+# Build for andoid
+```bash
+npm run android
+```
+
+# Build for iOS
+```bash
+npm run ios
+```
+
 # Release a version
 ```bash
 npm version patch
