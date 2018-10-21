@@ -72,7 +72,6 @@ while getopts "h?yp:t:" opt; do
     esac
 done
 
-
 # input project name if missing
 if [[ -z $projectName ]]; then
     echo -n "Enter project name (eg. space-travel-mobile): "
@@ -299,6 +298,8 @@ cp "$resourcesPath/play-store-phone-screenshot2.png" $projectDir
 # update README.md
 sed "s/appTitle/$appTitle/g" README.md > README.md.new
 mv README.md.new README.md
+sed "s/projectDescription/$projectDescription/g" README.md > README.md.new
+mv README.md.new README.md
 
 # application icon
 cordova-icon
@@ -350,7 +351,4 @@ echo
 echo "Project $projectName created successfully"
 echo "Your repo is $bitbucketRepoUrl"
 echo "Your project location is $projectDir"
-echo "Install npm dependencies with 'npm install'"
-echo "Run local development with 'npm start'"
-echo "Build iOS with 'npm run ios'"
-echo "Build Android with 'npm run android'"
+echo "Instructions on how to run and deploy your app are in $projectDir/README.md"
